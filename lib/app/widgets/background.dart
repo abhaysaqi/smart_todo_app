@@ -18,7 +18,7 @@ class Background extends StatelessWidget {
           ),
         ),
         SafeArea(
-          child: SingleChildScrollView(child: Center(child: SizedBox(height:MediaQuery.of(context).size.height ,width: MediaQuery.of(context).size.width,child: child,))),
+          child: SizedBox(height:MediaQuery.of(context).size.height ,width: MediaQuery.of(context).size.width,child: child,),
         ),
       ],
     );
