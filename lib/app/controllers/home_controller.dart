@@ -54,8 +54,14 @@ class HomeController extends GetxController {
   void loadtodos() {
     final storedtodos = storage.read<List>('todos') ?? [];
     todos.assignAll(storedtodos.map((e) => ToDoModel.fromJson(e)).toList());
+    deleteExpiredTodos();
     sortTodos();
   }
+  void deleteExpiredTodos() {
+  final now = DateTime.now();
+  todos.removeWhere((todo) => todo.dueDate.isBefore(now));
+  savetodos();
+}
 
   List<ToDoModel> searchTodos(String query) {
     return todos
