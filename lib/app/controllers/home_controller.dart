@@ -21,7 +21,7 @@ class HomeController extends GetxController {
       id: todo.id.hashCode, // 🔑 Use unique id (int)
       title: todo.title,
       body: "Your task '${todo.title}' is due soon!",
-      scheduledDate: todo.dueDate, // ⏰ DateTime when notification should fire
+      scheduledDate: todo.dueDate.subtract(const Duration(days: 1)), // ⏰ DateTime when notification should fire
     );
   }
 
@@ -36,7 +36,7 @@ class HomeController extends GetxController {
         id: updatedtodo.id.hashCode,
         title: updatedtodo.title,
         body: "Reminder: '${updatedtodo.title}' is due!",
-        scheduledDate: updatedtodo.dueDate,
+        scheduledDate: updatedtodo.dueDate.subtract(const Duration(days: 1)),
       );
     }
   }
