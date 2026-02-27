@@ -17,12 +17,14 @@ class HomeController extends GetxController {
   void addTodo(ToDoModel todo) {
     todos.add(todo);
     savetodos();
-    NotificationHelper.scheduleNotification(
-      id: todo.id.hashCode, // 🔑 Use unique id (int)
-      title: todo.title,
-      body: "Your task '${todo.title}' is due soon!",
-      scheduledDate: todo.dueDate.subtract(const Duration(days: 1)), // ⏰ DateTime when notification should fire
-    );
+    if (todo.dueDate.isAfter(DateTime.now())) {
+      NotificationHelper.scheduleNotification(
+        id: todo.id.hashCode,
+        title: todo.title,
+        body: "Your task '${todo.title}' is due now!",
+        scheduledDate: todo.dueDate, // ⏰ Fire at the exact due date/time
+      );
+    }
   }
 
   void updatetodo(ToDoModel updatedtodo) async {
@@ -32,12 +34,14 @@ class HomeController extends GetxController {
       todos[index] = updatedtodo;
       savetodos();
       await NotificationHelper.cancelNotification(updatedtodo.id.hashCode);
-      NotificationHelper.scheduleNotification(
-        id: updatedtodo.id.hashCode,
-        title: updatedtodo.title,
-        body: "Reminder: '${updatedtodo.title}' is due!",
-        scheduledDate: updatedtodo.dueDate.subtract(const Duration(days: 1)),
-      );
+      if (updatedtodo.dueDate.isAfter(DateTime.now())) {
+        NotificationHelper.scheduleNotification(
+          id: updatedtodo.id.hashCode,
+          title: updatedtodo.title,
+          body: "Reminder: '${updatedtodo.title}' is due now!",
+          scheduledDate: updatedtodo.dueDate,
+        );
+      }
     }
   }
 

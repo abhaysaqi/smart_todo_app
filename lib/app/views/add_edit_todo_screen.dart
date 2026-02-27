@@ -38,8 +38,8 @@ class AddEditToDoScreen extends StatelessWidget {
                 TextFormField(
                   controller: _con.titleController,
                   style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
                   ),
                   decoration: const InputDecoration(
                     labelText: 'Task Title',

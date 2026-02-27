@@ -7,10 +7,21 @@ class NotificationHelper {
 
   static Future<void> init() async {
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const ios = DarwinInitializationSettings();
+    const ios = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
     const settings = InitializationSettings(android: android, iOS: ios);
 
     await _notifications.initialize(settings);
+    
+    // Request Android 13+ permissions
+    await _notifications
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+
     tz.initializeTimeZones();
   }
 
