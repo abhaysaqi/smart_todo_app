@@ -30,7 +30,7 @@ class AddEditToDoScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text(todo != null ? 'Edit task' : 'New task')),
         body: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Form(
             key: _con.formKey,
             child: ListView(
