@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddEditTodoController extends GetxController {
@@ -11,12 +10,29 @@ class AddEditTodoController extends GetxController {
   final priority = 0.obs;
 
   void pickDate(BuildContext context) async {
-    final picked = await showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate.value ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
-    if (picked != null) selectedDate.value = picked;
+    if (pickedDate != null) {
+      if (!context.mounted) return;
+      final pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(selectedDate.value ?? DateTime.now()),
+      );
+      if (pickedTime != null) {
+        selectedDate.value = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+      } else {
+        selectedDate.value = pickedDate; // Keep date if time is cancelled
+      }
+    }
   }
 }
